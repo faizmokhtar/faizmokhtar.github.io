@@ -17,4 +17,6 @@ site:
         action: useVault
         payload:
             - vault
+    # git stubs
+    gh_root: "docs/"
 initializeRemoteVaults: true
