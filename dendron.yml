@@ -7,16 +7,15 @@ noLegacyNoteRef: true
 site:
     siteUrl: https://faizmokhtar.github.io
     copyAssets: true
-    siteHierarchies:
-        - root
+    siteHierarchies: [root]
     siteRootDir: docs
     usePrettyRefs: true
-    title: Dendron
+    title: "@faizmokh's 🧠"
+    twitter: "faizmokh"
     description: Personal knowledge space
     duplicateNoteBehavior:
         action: useVault
         payload:
             - vault
-    # git stubs
     gh_root: "docs/"
 initializeRemoteVaults: true
