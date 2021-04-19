@@ -5,7 +5,7 @@ vaults:
 useFMTitle: true
 noLegacyNoteRef: true
 site:
-    siteUrl: https://faizmokhtar.github.io
+    siteUrl: https://notes.faizmokhtar.com
     copyAssets: true
     siteHierarchies: [root]
     siteRootDir: docs
