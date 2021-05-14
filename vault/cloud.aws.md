@@ -2,7 +2,7 @@
 id: 71ddbf7d-3ee4-44d0-8673-6ec3654919ce
 title: Aws
 desc: ''
-updated: 1620974305746
+updated: 1620991681177
 created: 1620974068458
 ---
 
@@ -18,3 +18,7 @@ created: 1620974068458
     - "legacy" load balancer
     - can handle HTTP, HTTPS, TCP & TLS traffic but with far fewer features than ALB & NLB
     - operates at both application layer & transport layer
+
+# Useful resources
+
+- [AWS in plain English](https://expeditedsecurity.com/aws-in-plain-english/)

@@ -5,7 +5,7 @@
   <meta charset="UTF-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
   
-  <title>Apis - @faizmokh's 🧠</title>
+  <title>Terraform - @faizmokh's 🧠</title>
   
 
   <link
@@ -42,22 +42,22 @@
 <meta name="description" content="Personal knowledge space">
 <meta name="author" content="">
 
-<link rel="canonical" href="https://notes.faizmokhtar.com/notes/97b2c382-1ce0-42ed-87e9-236dd0eddeaa.html">
+<link rel="canonical" href="https://notes.faizmokhtar.com/notes/043c2a82-5512-4493-9eac-7752d9a12a7b.html">
 
 <meta property="og:type" content="article">
-<meta property="og:url" content="https://notes.faizmokhtar.com/notes/97b2c382-1ce0-42ed-87e9-236dd0eddeaa.html">
+<meta property="og:url" content="https://notes.faizmokhtar.com/notes/043c2a82-5512-4493-9eac-7752d9a12a7b.html">
 <meta property="og:description" content="Personal knowledge space">
 <meta property="og:image" content="https://notes.faizmokhtar.comundefined">
 
 <meta name="twitter:card" content="summary">
 <meta name="twitter:site" content="@faizmokh">
-<meta name="twitter:url" content="https://notes.faizmokhtar.com/notes/97b2c382-1ce0-42ed-87e9-236dd0eddeaa.html">
+<meta name="twitter:url" content="https://notes.faizmokhtar.com/notes/043c2a82-5512-4493-9eac-7752d9a12a7b.html">
 <meta name="twitter:description" content="Personal knowledge space">
 <meta name="twitter:image" content="https://notes.faizmokhtar.comundefined">
 
 
-  <meta property="og:title" content="Apis - @faizmokh's 🧠" />
-  <meta name="twitter:title" content="Apis - @faizmokh's 🧠" />
+  <meta property="og:title" content="Terraform - @faizmokh's 🧠" />
+  <meta name="twitter:title" content="Terraform - @faizmokh's 🧠" />
   
 </head>
 
@@ -131,7 +131,7 @@
       
         
           <nav aria-label="Breadcrumb" class="breadcrumb-nav">
-            <ol class="breadcrumb-nav-list"><li class="breadcrumb-nav-list-item"><a href="https://notes.faizmokhtar.com">Root</a></li><li class="breadcrumb-nav-list-item"><a href="https://notes.faizmokhtar.com/notes/f88d532b-8515-4037-a145-0ade53bc972c.html">iOS</a></li><li class="breadcrumb-nav-list-item">Apis</li></ol>
+            <ol class="breadcrumb-nav-list"><li class="breadcrumb-nav-list-item"><a href="https://notes.faizmokhtar.com">Root</a></li><li class="breadcrumb-nav-list-item"><a href="https://notes.faizmokhtar.com/notes/41bfd126-5186-433b-84ba-cd3b79f29c18.html">Tool</a></li><li class="breadcrumb-nav-list-item">Terraform</li></ol>
           </nav>
         
       
@@ -164,10 +164,10 @@
 <div id="main" role="main">
 
   <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
-    <meta itemprop="headline" content="Apis">
+    <meta itemprop="headline" content="Terraform">
     
-    <meta itemprop="datePublished" content="2021-04-12T13:04:08+00:00">
-    <meta itemprop="dateModified" content="2021-04-12T13:04:08+00:00">
+    <meta itemprop="datePublished" content="2021-04-25T00:59:59+00:00">
+    <meta itemprop="dateModified" content="2021-05-14T18:46:32+00:00">
 
     <div class="page__inner-wrap">
 
@@ -177,12 +177,95 @@
 
         
 
-        <h1 id="apis"><a aria-hidden="true" class="anchor-heading" href="#apis"><svg aria-hidden="true" viewBox="0 0 16 16"><use xlink:href="#svg-link"></use></svg></a>Apis</h1>
-<hr>
-<h2 id="children"><a aria-hidden="true" class="anchor-heading" href="#children"><svg aria-hidden="true" viewBox="0 0 16 16"><use xlink:href="#svg-link"></use></svg></a>Children</h2>
+        <h1 id="terraform"><a aria-hidden="true" class="anchor-heading" href="#terraform"><svg aria-hidden="true" viewBox="0 0 16 16"><use xlink:href="#svg-link"></use></svg></a>Terraform</h1>
+<h1 id="basic-terraform-workflow"><a aria-hidden="true" class="anchor-heading" href="#basic-terraform-workflow"><svg aria-hidden="true" viewBox="0 0 16 16"><use xlink:href="#svg-link"></use></svg></a>Basic Terraform workflow</h1>
 <ol>
-<li><a href="https://notes.faizmokhtar.com/notes/b4078b01-19a4-4e58-ba88-1485d50d963e.html">App Search APIs</a></li>
-</ol><span id="navId" data="97b2c382-1ce0-42ed-87e9-236dd0eddeaa"></span>
+<li>Create Terraform file. Eg: <code>main.tf</code></li>
+<li>Define configuration</li>
+<li>Run <code>terraform init</code></li>
+<li>Run <code>terraform plan</code> to see what Terraform wiill do</li>
+<li>Run <code>terraform apply</code> to actually create the instance</li>
+</ol>
+<h1 id="terraform-state"><a aria-hidden="true" class="anchor-heading" href="#terraform-state"><svg aria-hidden="true" viewBox="0 0 16 16"><use xlink:href="#svg-link"></use></svg></a>Terraform State</h1>
+<ul>
+<li>Records information about what infrastructure it created in <code>.tfstate</code>.</li>
+<li>The state file <code>.tfstate</code> is a <strong>Private API</strong>
+<ul>
+<li>Should nenver be edited or referenced directly</li>
+</ul>
+</li>
+<li>It should not be commited into git repo</li>
+<li>The best way to manage shared storage for state file is through remote backend
+<ul>
+<li>There's limitation
+<ul>
+<li>It's a 2 step process for when creating &#x26; deleting</li>
+<li><code>backend</code> block in Terraform does not allow us to use any variables or references</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Be paranoid with how we store our state files. Always enable encryption and who we allow access to it.</li>
+</ul>
+<h3 id="example-of-creating-terraform-backend"><a aria-hidden="true" class="anchor-heading" href="#example-of-creating-terraform-backend"><svg aria-hidden="true" viewBox="0 0 16 16"><use xlink:href="#svg-link"></use></svg></a>Example of creating Terraform Backend</h3>
+<ul>
+<li><code>.tfstate</code> is stored in S3 and DynamoDB is used for locking</li>
+</ul>
+<pre><code>provider "aws" {
+    region = "ap-southeast-1"
+}
+
+resource "aws_s3_bucket" "terraform_state" {
+    bucket = "toy-terraform-state-fm"
+
+    # prevent accidental deletion of this s3 bucket
+    lifecycle {
+        prevent_destroy = true
+    }
+
+    versioning {
+        enabled = true
+    }
+
+    # enable server-side encryption by default
+    server_side_encryption_configuration {
+        rule {
+            apply_server_side_encryption_by_default {
+              sse_algorithm = "AES256"
+            }
+        }
+    }
+}
+
+resource "aws_dynamodb_table" "terraform_locks" {
+    name = "toy-terraform-state-locks-fm"
+    billing_mode = "PAY_PER_REQUEST"
+    hash_key = "LockID"
+
+    attribute {
+        name = "LockID"
+        type = "S"
+    }
+}
+
+# Example of using remote backend to avoid commiting `.tfstate`
+# It solved the following issues:
+# 1. manual error
+# 2. locking (with Dynamo DB)
+# 3. secrets (with S3 and IAM policies)
+
+# Run `terraform init` again to instruct terraform to store state file in S3 bucket
+terraform {
+  backend "s3" {
+      bucket = "toy-terraform-state-fm"
+      key = "global/s3/terraform.tfstate"
+      region = "ap-southeast-1"
+
+      dynamodb_table = "toy-terraform-state-locks-fm"
+      encrypt = true
+  }
+}
+</code></pre><span id="navId" data="043c2a82-5512-4493-9eac-7752d9a12a7b"></span>
 
                 
       </section>
