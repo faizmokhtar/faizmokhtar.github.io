@@ -167,7 +167,7 @@
     <meta itemprop="headline" content="Rxswift">
     
     <meta itemprop="datePublished" content="2021-05-10T08:55:25+00:00">
-    <meta itemprop="dateModified" content="2021-05-10T09:05:15+00:00">
+    <meta itemprop="dateModified" content="2021-05-30T16:33:08+00:00">
 
     <div class="page__inner-wrap">
 
@@ -188,7 +188,32 @@
 </ul>
 </li>
 </ul>
-<p><a href="https://github.com/ReactiveX/RxSwift/blob/main/RxRelay/BehaviorRelay.swift">RxRelay Github link</a></p><span id="navId" data="98b3c847-9ce7-4cf4-9c51-288a3f0f4698"></span>
+<p><a href="https://github.com/ReactiveX/RxSwift/blob/main/RxRelay/BehaviorRelay.swift">RxRelay Github link</a></p>
+<h2 id="rxswift-and-delegate-pattern"><a aria-hidden="true" class="anchor-heading" href="#rxswift-and-delegate-pattern"><svg aria-hidden="true" viewBox="0 0 16 16"><use xlink:href="#svg-link"></use></svg></a>RxSwift and delegate pattern</h2>
+<ul>
+<li>Checkout <code>Reactive.swift</code>, <code>DelegateProxy.swift</code> &#x26; <code>DelegateProxyType.swift</code> files</li>
+<li><code>DelegateProxy</code> object creates a fake delegate object which will proxy all the data received into dedicated observables
+<ul>
+<li>create a proxy to drive all data from the delegate to observables</li>
+<li>map 1-to-1 relationship, single protocol will correspond to a single observable that returns the given data</li>
+</ul>
+</li>
+</ul>
+<h3 id="delegate-pattern-without-return-type"><a aria-hidden="true" class="anchor-heading" href="#delegate-pattern-without-return-type"><svg aria-hidden="true" viewBox="0 0 16 16"><use xlink:href="#svg-link"></use></svg></a>Delegate pattern without return type</h3>
+<ul>
+<li>Use <code>sentMessage(Selector)</code> or <code>methodInvoked(Selector)</code></li>
+</ul>
+<h3 id="delegate-pattern-with-return-type"><a aria-hidden="true" class="anchor-heading" href="#delegate-pattern-with-return-type"><svg aria-hidden="true" viewBox="0 0 16 16"><use xlink:href="#svg-link"></use></svg></a>Delegate pattern with return type</h3>
+<ul>
+<li>Wrapping a delegate with return type are very hard task
+<ul>
+<li>Delegate methods with a return type are not meant for observation, but customization of the behavior.</li>
+<li>Defining an automatic default value that would work in any case is a non-trivial task.</li>
+<li>Best solution is to forward the call to a classic implementation of the delegate</li>
+</ul>
+</li>
+<li>Use <code>public static func installForwardDelegate(_ forwardDelegate: AnyObject, retainDelegate: Bool, onProxyForObject object: AnyObject) -> Disposable</code></li>
+</ul><span id="navId" data="98b3c847-9ce7-4cf4-9c51-288a3f0f4698"></span>
 
                 
       </section>

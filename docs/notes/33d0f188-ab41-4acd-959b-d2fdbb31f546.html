@@ -5,7 +5,7 @@
   <meta charset="UTF-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
   
-  <title>Git - @faizmokh's 🧠</title>
+  <title>Nginx - @faizmokh's 🧠</title>
   
 
   <link
@@ -42,22 +42,22 @@
 <meta name="description" content="Personal knowledge space">
 <meta name="author" content="">
 
-<link rel="canonical" href="https://notes.faizmokhtar.com/notes/f6ceb740-2750-4244-950f-a384298bd226.html">
+<link rel="canonical" href="https://notes.faizmokhtar.com/notes/33d0f188-ab41-4acd-959b-d2fdbb31f546.html">
 
 <meta property="og:type" content="article">
-<meta property="og:url" content="https://notes.faizmokhtar.com/notes/f6ceb740-2750-4244-950f-a384298bd226.html">
+<meta property="og:url" content="https://notes.faizmokhtar.com/notes/33d0f188-ab41-4acd-959b-d2fdbb31f546.html">
 <meta property="og:description" content="Personal knowledge space">
 <meta property="og:image" content="https://notes.faizmokhtar.comundefined">
 
 <meta name="twitter:card" content="summary">
 <meta name="twitter:site" content="@faizmokh">
-<meta name="twitter:url" content="https://notes.faizmokhtar.com/notes/f6ceb740-2750-4244-950f-a384298bd226.html">
+<meta name="twitter:url" content="https://notes.faizmokhtar.com/notes/33d0f188-ab41-4acd-959b-d2fdbb31f546.html">
 <meta name="twitter:description" content="Personal knowledge space">
 <meta name="twitter:image" content="https://notes.faizmokhtar.comundefined">
 
 
-  <meta property="og:title" content="Git - @faizmokh's 🧠" />
-  <meta name="twitter:title" content="Git - @faizmokh's 🧠" />
+  <meta property="og:title" content="Nginx - @faizmokh's 🧠" />
+  <meta name="twitter:title" content="Nginx - @faizmokh's 🧠" />
   
 </head>
 
@@ -131,7 +131,7 @@
       
         
           <nav aria-label="Breadcrumb" class="breadcrumb-nav">
-            <ol class="breadcrumb-nav-list"><li class="breadcrumb-nav-list-item"><a href="https://notes.faizmokhtar.com">Root</a></li><li class="breadcrumb-nav-list-item"><a href="https://notes.faizmokhtar.com/notes/41bfd126-5186-433b-84ba-cd3b79f29c18.html">Tool</a></li><li class="breadcrumb-nav-list-item">Git</li></ol>
+            <ol class="breadcrumb-nav-list"><li class="breadcrumb-nav-list-item"><a href="https://notes.faizmokhtar.com">Root</a></li><li class="breadcrumb-nav-list-item"><a href="https://notes.faizmokhtar.com/notes/41bfd126-5186-433b-84ba-cd3b79f29c18.html">Tool</a></li><li class="breadcrumb-nav-list-item">Nginx</li></ol>
           </nav>
         
       
@@ -164,10 +164,10 @@
 <div id="main" role="main">
 
   <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
-    <meta itemprop="headline" content="Git">
+    <meta itemprop="headline" content="Nginx">
     
-    <meta itemprop="datePublished" content="2021-04-19T22:27:04+00:00">
-    <meta itemprop="dateModified" content="2021-05-17T11:29:26+00:00">
+    <meta itemprop="datePublished" content="2021-05-21T15:37:30+00:00">
+    <meta itemprop="dateModified" content="2021-05-22T23:37:58+00:00">
 
     <div class="page__inner-wrap">
 
@@ -177,20 +177,22 @@
 
         
 
-        <h1 id="git"><a aria-hidden="true" class="anchor-heading" href="#git"><svg aria-hidden="true" viewBox="0 0 16 16"><use xlink:href="#svg-link"></use></svg></a>Git</h1>
-<h2 id="git-cheatsheet"><a aria-hidden="true" class="anchor-heading" href="#git-cheatsheet"><svg aria-hidden="true" viewBox="0 0 16 16"><use xlink:href="#svg-link"></use></svg></a>Git Cheatsheet</h2>
-<h3 id="squashing-4-commits"><a aria-hidden="true" class="anchor-heading" href="#squashing-4-commits"><svg aria-hidden="true" viewBox="0 0 16 16"><use xlink:href="#svg-link"></use></svg></a>Squashing 4 commits</h3>
-<pre><code>git checkout $BRANCH_NAME
-git rebase -i $BRANCH_NAME~4 $BRANCH_NAME
-
-# at interactive screen
-# then choose the fixup for commit: 2/3/4
-
-git push -u origin +$BRANCH_NAME
+        <h1 id="nginx"><a aria-hidden="true" class="anchor-heading" href="#nginx"><svg aria-hidden="true" viewBox="0 0 16 16"><use xlink:href="#svg-link"></use></svg></a>Nginx</h1>
+<h1 id="what-it-is"><a aria-hidden="true" class="anchor-heading" href="#what-it-is"><svg aria-hidden="true" viewBox="0 0 16 16"><use xlink:href="#svg-link"></use></svg></a>What it is?</h1>
+<ul>
+<li>basically a web server that's now famously used for reverse proxy, HTTP cache, load balancing and among other else</li>
+</ul>
+<h2 id="basic-commands"><a aria-hidden="true" class="anchor-heading" href="#basic-commands"><svg aria-hidden="true" viewBox="0 0 16 16"><use xlink:href="#svg-link"></use></svg></a>Basic commands</h2>
+<pre class="language-bash"><code class="language-bash">nginx -s <span class="token variable">$COMMAND</span> 
 </code></pre>
-<h3 id="setting-global-default-branch-name-to-main"><a aria-hidden="true" class="anchor-heading" href="#setting-global-default-branch-name-to-main"><svg aria-hidden="true" viewBox="0 0 16 16"><use xlink:href="#svg-link"></use></svg></a>Setting global default branch name to <code>main</code></h3>
-<pre><code>git config --global init.defaultBranch main
-</code></pre><span id="navId" data="f6ceb740-2750-4244-950f-a384298bd226"></span>
+<ul>
+<li>Replace <code>$COMMAND</code> with either of the following</li>
+</ul>
+<pre class="language-bash"><code class="language-bash">stop <span class="token comment"># fast shutdown</span>
+quit <span class="token comment"># graceful shutdown</span>
+reload <span class="token comment"># reloading the configuration file</span>
+reopen <span class="token comment"># reopening the log files</span>
+</code></pre><span id="navId" data="33d0f188-ab41-4acd-959b-d2fdbb31f546"></span>
 
                 
       </section>

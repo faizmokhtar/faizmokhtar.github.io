@@ -167,7 +167,7 @@
     <meta itemprop="headline" content="Jenkins">
     
     <meta itemprop="datePublished" content="2021-04-18T22:22:54+00:00">
-    <meta itemprop="dateModified" content="2021-04-18T22:23:51+00:00">
+    <meta itemprop="dateModified" content="2021-05-20T14:22:41+00:00">
 
     <div class="page__inner-wrap">
 
@@ -183,15 +183,24 @@
 <li>login to Docker</li>
 <li>run the followings</li>
 </ol>
-<pre><code>$~ docker pull jenkins/jenkins:lts
-$~ docker run --detach --publish 8080:8080 --volume
+<pre class="language-bash"><code class="language-bash">$~ docker pull jenkins/jenkins:lts
+$~ docker run --detach --publish <span class="token number">8080</span>:8080 --volume
 jenkins_home:/var/jenkins_home --name jenkins jenkins/jenkins:lts
-$~ docker exec jenkins cat /var/jenkins_home/secrets/initialAdminPassword
+$~ docker <span class="token builtin class-name">exec</span> jenkins <span class="token function">cat</span> /var/jenkins_home/secrets/initialAdminPassword
 </code></pre>
 <ol start="3">
 <li>copy the password and open localhost:8080</li>
 <li>install suggested plugins</li>
 </ol>
+<h2 id="to-install-jenkins-on-mac-useful-for-ios-cicd"><a aria-hidden="true" class="anchor-heading" href="#to-install-jenkins-on-mac-useful-for-ios-cicd"><svg aria-hidden="true" viewBox="0 0 16 16"><use xlink:href="#svg-link"></use></svg></a>To install Jenkins on Mac (Useful for iOS CI/CD)</h2>
+<ol>
+<li>Install it with <code>brew</code></li>
+</ol>
+<pre class="language-bash"><code class="language-bash">brew <span class="token function">install</span> --cask homebrew/cask-versions/adoptopenjdk8
+brew <span class="token function">install</span> jenkins-lts
+<span class="token comment"># run it in background</span>
+brew services start jenkins-lts
+</code></pre>
 <h2 id="type-of-jobs-in-jenkins"><a aria-hidden="true" class="anchor-heading" href="#type-of-jobs-in-jenkins"><svg aria-hidden="true" viewBox="0 0 16 16"><use xlink:href="#svg-link"></use></svg></a>Type of jobs in Jenkins</h2>
 <ol>
 <li>freestyle job (most commonly used)</li>
