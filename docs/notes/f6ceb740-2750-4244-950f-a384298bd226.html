@@ -167,7 +167,7 @@
     <meta itemprop="headline" content="Git">
     
     <meta itemprop="datePublished" content="2021-04-19T22:27:04+00:00">
-    <meta itemprop="dateModified" content="2021-05-17T11:29:26+00:00">
+    <meta itemprop="dateModified" content="2021-06-09T11:49:30+00:00">
 
     <div class="page__inner-wrap">
 
@@ -190,6 +190,17 @@ git push -u origin +$BRANCH_NAME
 </code></pre>
 <h3 id="setting-global-default-branch-name-to-main"><a aria-hidden="true" class="anchor-heading" href="#setting-global-default-branch-name-to-main"><svg aria-hidden="true" viewBox="0 0 16 16"><use xlink:href="#svg-link"></use></svg></a>Setting global default branch name to <code>main</code></h3>
 <pre><code>git config --global init.defaultBranch main
+</code></pre>
+<h3 id="to-checkout-deleted-local-branch"><a aria-hidden="true" class="anchor-heading" href="#to-checkout-deleted-local-branch"><svg aria-hidden="true" viewBox="0 0 16 16"><use xlink:href="#svg-link"></use></svg></a>To checkout deleted local branch</h3>
+<ul>
+<li>Use <code>git reflog</code></li>
+</ul>
+<pre class="language-bash"><code class="language-bash"><span class="token function">git</span> reflog
+</code></pre>
+<ul>
+<li>Find the commit's SHA1 of the branch that you've deleted</li>
+</ul>
+<pre class="language-bash"><code class="language-bash"><span class="token function">git</span> checkout -b <span class="token variable">$SHA1</span>
 </code></pre><span id="navId" data="f6ceb740-2750-4244-950f-a384298bd226"></span>
 
                 

@@ -1,8 +1,8 @@
 ---
 id: 7d00ea3a-985f-4e46-b90e-46abc296aaab
-title: Til
-desc: ''
-updated: 1620223371944
+title: TIL
+desc: 'Today I learned'
+updated: 1622379062820
 created: 1620223288089
 ---
 

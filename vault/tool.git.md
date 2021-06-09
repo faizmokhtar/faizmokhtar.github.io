@@ -2,7 +2,7 @@
 id: f6ceb740-2750-4244-950f-a384298bd226
 title: Git
 desc: ''
-updated: 1621222166302
+updated: 1623210570764
 created: 1618842424323
 ---
 
@@ -23,4 +23,15 @@ git push -u origin +$BRANCH_NAME
 
 ```
 git config --global init.defaultBranch main
+```
+
+### To checkout deleted local branch
+
+- Use `git reflog`
+```bash
+git reflog
+```
+- Find the commit's SHA1 of the branch that you've deleted
+```bash
+git checkout -b $SHA1
 ```
