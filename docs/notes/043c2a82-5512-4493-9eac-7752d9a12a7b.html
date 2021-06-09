@@ -167,7 +167,7 @@
     <meta itemprop="headline" content="Terraform">
     
     <meta itemprop="datePublished" content="2021-04-25T00:59:59+00:00">
-    <meta itemprop="dateModified" content="2021-05-14T18:46:32+00:00">
+    <meta itemprop="dateModified" content="2021-06-09T11:59:03+00:00">
 
     <div class="page__inner-wrap">
 
@@ -211,60 +211,60 @@
 <ul>
 <li><code>.tfstate</code> is stored in S3 and DynamoDB is used for locking</li>
 </ul>
-<pre><code>provider "aws" {
-    region = "ap-southeast-1"
-}
+<pre class="language-bash"><code class="language-bash">provider <span class="token string">"aws"</span> <span class="token punctuation">{</span>
+    region <span class="token operator">=</span> <span class="token string">"ap-southeast-1"</span>
+<span class="token punctuation">}</span>
 
-resource "aws_s3_bucket" "terraform_state" {
-    bucket = "toy-terraform-state-fm"
+resource <span class="token string">"aws_s3_bucket"</span> <span class="token string">"terraform_state"</span> <span class="token punctuation">{</span>
+    bucket <span class="token operator">=</span> <span class="token string">"toy-terraform-state-fm"</span>
 
-    # prevent accidental deletion of this s3 bucket
-    lifecycle {
-        prevent_destroy = true
-    }
+    <span class="token comment"># prevent accidental deletion of this s3 bucket</span>
+    lifecycle <span class="token punctuation">{</span>
+        prevent_destroy <span class="token operator">=</span> <span class="token boolean">true</span>
+    <span class="token punctuation">}</span>
 
-    versioning {
-        enabled = true
-    }
+    versioning <span class="token punctuation">{</span>
+        enabled <span class="token operator">=</span> <span class="token boolean">true</span>
+    <span class="token punctuation">}</span>
 
-    # enable server-side encryption by default
-    server_side_encryption_configuration {
-        rule {
-            apply_server_side_encryption_by_default {
-              sse_algorithm = "AES256"
-            }
-        }
-    }
-}
+    <span class="token comment"># enable server-side encryption by default</span>
+    server_side_encryption_configuration <span class="token punctuation">{</span>
+        rule <span class="token punctuation">{</span>
+            apply_server_side_encryption_by_default <span class="token punctuation">{</span>
+              sse_algorithm <span class="token operator">=</span> <span class="token string">"AES256"</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
 
-resource "aws_dynamodb_table" "terraform_locks" {
-    name = "toy-terraform-state-locks-fm"
-    billing_mode = "PAY_PER_REQUEST"
-    hash_key = "LockID"
+resource <span class="token string">"aws_dynamodb_table"</span> <span class="token string">"terraform_locks"</span> <span class="token punctuation">{</span>
+    name <span class="token operator">=</span> <span class="token string">"toy-terraform-state-locks-fm"</span>
+    billing_mode <span class="token operator">=</span> <span class="token string">"PAY_PER_REQUEST"</span>
+    hash_key <span class="token operator">=</span> <span class="token string">"LockID"</span>
 
-    attribute {
-        name = "LockID"
-        type = "S"
-    }
-}
+    attribute <span class="token punctuation">{</span>
+        name <span class="token operator">=</span> <span class="token string">"LockID"</span>
+        <span class="token builtin class-name">type</span> <span class="token operator">=</span> <span class="token string">"S"</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
 
-# Example of using remote backend to avoid commiting `.tfstate`
-# It solved the following issues:
-# 1. manual error
-# 2. locking (with Dynamo DB)
-# 3. secrets (with S3 and IAM policies)
+<span class="token comment"># Example of using remote backend to avoid commiting `.tfstate`</span>
+<span class="token comment"># It solved the following issues:</span>
+<span class="token comment"># 1. manual error</span>
+<span class="token comment"># 2. locking (with Dynamo DB)</span>
+<span class="token comment"># 3. secrets (with S3 and IAM policies)</span>
 
-# Run `terraform init` again to instruct terraform to store state file in S3 bucket
-terraform {
-  backend "s3" {
-      bucket = "toy-terraform-state-fm"
-      key = "global/s3/terraform.tfstate"
-      region = "ap-southeast-1"
+<span class="token comment"># Run `terraform init` again to instruct terraform to store state file in S3 bucket</span>
+terraform <span class="token punctuation">{</span>
+  backend <span class="token string">"s3"</span> <span class="token punctuation">{</span>
+      bucket <span class="token operator">=</span> <span class="token string">"toy-terraform-state-fm"</span>
+      key <span class="token operator">=</span> <span class="token string">"global/s3/terraform.tfstate"</span>
+      region <span class="token operator">=</span> <span class="token string">"ap-southeast-1"</span>
 
-      dynamodb_table = "toy-terraform-state-locks-fm"
-      encrypt = true
-  }
-}
+      dynamodb_table <span class="token operator">=</span> <span class="token string">"toy-terraform-state-locks-fm"</span>
+      encrypt <span class="token operator">=</span> <span class="token boolean">true</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
 </code></pre><span id="navId" data="043c2a82-5512-4493-9eac-7752d9a12a7b"></span>
 
                 

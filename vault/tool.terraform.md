@@ -2,7 +2,7 @@
 id: 043c2a82-5512-4493-9eac-7752d9a12a7b
 title: Terraform
 desc: ''
-updated: 1620989192035
+updated: 1623211143223
 created: 1619283599312
 ---
 
@@ -28,7 +28,7 @@ created: 1619283599312
 
 ### Example of creating Terraform Backend
 - `.tfstate` is stored in S3 and DynamoDB is used for locking
-```
+```bash
 provider "aws" {
     region = "ap-southeast-1"
 }

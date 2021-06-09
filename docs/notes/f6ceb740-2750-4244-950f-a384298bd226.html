@@ -167,7 +167,7 @@
     <meta itemprop="headline" content="Git">
     
     <meta itemprop="datePublished" content="2021-04-19T22:27:04+00:00">
-    <meta itemprop="dateModified" content="2021-06-09T11:49:30+00:00">
+    <meta itemprop="dateModified" content="2021-06-09T11:58:38+00:00">
 
     <div class="page__inner-wrap">
 
@@ -180,16 +180,16 @@
         <h1 id="git"><a aria-hidden="true" class="anchor-heading" href="#git"><svg aria-hidden="true" viewBox="0 0 16 16"><use xlink:href="#svg-link"></use></svg></a>Git</h1>
 <h2 id="git-cheatsheet"><a aria-hidden="true" class="anchor-heading" href="#git-cheatsheet"><svg aria-hidden="true" viewBox="0 0 16 16"><use xlink:href="#svg-link"></use></svg></a>Git Cheatsheet</h2>
 <h3 id="squashing-4-commits"><a aria-hidden="true" class="anchor-heading" href="#squashing-4-commits"><svg aria-hidden="true" viewBox="0 0 16 16"><use xlink:href="#svg-link"></use></svg></a>Squashing 4 commits</h3>
-<pre><code>git checkout $BRANCH_NAME
-git rebase -i $BRANCH_NAME~4 $BRANCH_NAME
+<pre class="language-bash"><code class="language-bash"><span class="token function">git</span> checkout <span class="token variable">$BRANCH_NAME</span>
+<span class="token function">git</span> rebase -i <span class="token variable">$BRANCH_NAME</span>~4 <span class="token variable">$BRANCH_NAME</span>
 
-# at interactive screen
-# then choose the fixup for commit: 2/3/4
+<span class="token comment"># at interactive screen</span>
+<span class="token comment"># then choose the fixup for commit: 2/3/4</span>
 
-git push -u origin +$BRANCH_NAME
+<span class="token function">git</span> push -u origin +<span class="token variable">$BRANCH_NAME</span>
 </code></pre>
 <h3 id="setting-global-default-branch-name-to-main"><a aria-hidden="true" class="anchor-heading" href="#setting-global-default-branch-name-to-main"><svg aria-hidden="true" viewBox="0 0 16 16"><use xlink:href="#svg-link"></use></svg></a>Setting global default branch name to <code>main</code></h3>
-<pre><code>git config --global init.defaultBranch main
+<pre class="language-bash"><code class="language-bash"><span class="token function">git</span> config --global init.defaultBranch main
 </code></pre>
 <h3 id="to-checkout-deleted-local-branch"><a aria-hidden="true" class="anchor-heading" href="#to-checkout-deleted-local-branch"><svg aria-hidden="true" viewBox="0 0 16 16"><use xlink:href="#svg-link"></use></svg></a>To checkout deleted local branch</h3>
 <ul>
