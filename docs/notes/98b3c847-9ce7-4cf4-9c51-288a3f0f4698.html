@@ -167,7 +167,7 @@
     <meta itemprop="headline" content="Rxswift">
     
     <meta itemprop="datePublished" content="2021-05-10T08:55:25+00:00">
-    <meta itemprop="dateModified" content="2021-05-30T16:33:08+00:00">
+    <meta itemprop="dateModified" content="2021-06-20T14:09:56+00:00">
 
     <div class="page__inner-wrap">
 
@@ -189,6 +189,98 @@
 </li>
 </ul>
 <p><a href="https://github.com/ReactiveX/RxSwift/blob/main/RxRelay/BehaviorRelay.swift">RxRelay Github link</a></p>
+<h2 id="extending-class-to-provide-rx-behavior"><a aria-hidden="true" class="anchor-heading" href="#extending-class-to-provide-rx-behavior"><svg aria-hidden="true" viewBox="0 0 16 16"><use xlink:href="#svg-link"></use></svg></a>Extending class to provide Rx behavior</h2>
+<ul>
+<li>To make it available through <code>rx</code> property</li>
+<li>Use <code>ReactiveCompatible</code> protocol</li>
+<li>Example by extending <code>KeychainWorker</code> class with <code>ReactiveCompatible</code></li>
+</ul>
+<pre class="language-swift"><code class="language-swift"><span class="token keyword">import</span> <span class="token builtin">Foundation</span>
+<span class="token keyword">import</span> <span class="token builtin">KeychainAccess</span>
+<span class="token keyword">import</span> <span class="token builtin">RxSwift</span>
+
+<span class="token keyword">class</span> <span class="token class-name">KeychainWorker</span> <span class="token punctuation">{</span>
+    
+    <span class="token keyword">let</span> keychain<span class="token punctuation">:</span> <span class="token builtin">Keychain</span>
+
+    <span class="token keyword">init</span><span class="token punctuation">(</span>identifier<span class="token punctuation">:</span> <span class="token builtin">String</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">self</span><span class="token punctuation">.</span>keychain <span class="token operator">=</span> <span class="token function">Keychain</span><span class="token punctuation">(</span>service<span class="token punctuation">:</span> identifier<span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+    
+    <span class="token keyword">func</span> <span class="token keyword">set</span><span class="token punctuation">(</span>key<span class="token punctuation">:</span> <span class="token builtin">String</span><span class="token punctuation">,</span> value<span class="token punctuation">:</span> <span class="token builtin">String</span><span class="token punctuation">)</span> <span class="token keyword">throws</span> <span class="token punctuation">{</span>
+        <span class="token keyword">try</span> keychain<span class="token punctuation">.</span><span class="token keyword">set</span><span class="token punctuation">(</span>value<span class="token punctuation">,</span> key<span class="token punctuation">:</span> key<span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">func</span> <span class="token function">getValue</span><span class="token punctuation">(</span><span class="token keyword">for</span> key<span class="token punctuation">:</span> <span class="token builtin">String</span><span class="token punctuation">)</span> <span class="token keyword">throws</span> <span class="token operator">-</span><span class="token operator">></span> <span class="token builtin">String</span><span class="token operator">?</span> <span class="token punctuation">{</span>
+        <span class="token keyword">try</span> keychain<span class="token punctuation">.</span><span class="token keyword">get</span><span class="token punctuation">(</span>key<span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+    
+    <span class="token keyword">func</span> <span class="token function">remove</span><span class="token punctuation">(</span>key<span class="token punctuation">:</span> <span class="token builtin">String</span><span class="token punctuation">)</span> <span class="token keyword">throws</span> <span class="token punctuation">{</span>
+        <span class="token keyword">try</span> keychain<span class="token punctuation">.</span><span class="token function">remove</span><span class="token punctuation">(</span>key<span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+    
+    <span class="token keyword">func</span> <span class="token function">removeAll</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">throws</span> <span class="token punctuation">{</span>
+        <span class="token keyword">try</span> keychain<span class="token punctuation">.</span><span class="token function">removeAll</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">extension</span> <span class="token builtin">KeychainWorker</span><span class="token punctuation">:</span> <span class="token builtin">ReactiveCompatible</span> <span class="token punctuation">{</span><span class="token punctuation">}</span>
+
+<span class="token keyword">extension</span> <span class="token builtin">Reactive</span> <span class="token keyword">where</span> <span class="token builtin">Base</span><span class="token punctuation">:</span> <span class="token builtin">KeychainWorker</span> <span class="token punctuation">{</span>
+    <span class="token keyword">func</span> <span class="token keyword">set</span><span class="token punctuation">(</span>key<span class="token punctuation">:</span> <span class="token builtin">String</span><span class="token punctuation">,</span> value<span class="token punctuation">:</span> <span class="token builtin">String</span><span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">></span> <span class="token builtin">Observable</span><span class="token operator">&#x3C;</span><span class="token builtin">Void</span><span class="token operator">></span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token builtin">Observable</span><span class="token operator">&#x3C;</span><span class="token builtin">Void</span><span class="token operator">></span><span class="token punctuation">.</span><span class="token function">create</span><span class="token punctuation">(</span><span class="token punctuation">{</span> observer <span class="token keyword">in</span>
+            <span class="token keyword">do</span> <span class="token punctuation">{</span>
+                <span class="token keyword">try</span> <span class="token keyword">self</span><span class="token punctuation">.</span>base<span class="token punctuation">.</span><span class="token keyword">set</span><span class="token punctuation">(</span>key<span class="token punctuation">:</span> key<span class="token punctuation">,</span> value<span class="token punctuation">:</span> value<span class="token punctuation">)</span>
+                observer<span class="token punctuation">.</span><span class="token function">onCompleted</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+            <span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token keyword">let</span> error <span class="token punctuation">{</span>
+                observer<span class="token punctuation">.</span><span class="token function">onError</span><span class="token punctuation">(</span>error<span class="token punctuation">)</span>
+            <span class="token punctuation">}</span>
+            
+            <span class="token keyword">return</span> <span class="token builtin">Disposables</span><span class="token punctuation">.</span><span class="token function">create</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+        <span class="token punctuation">}</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+    
+    <span class="token keyword">func</span> <span class="token function">getValue</span><span class="token punctuation">(</span><span class="token keyword">for</span> key<span class="token punctuation">:</span> <span class="token builtin">String</span><span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">></span> <span class="token builtin">Observable</span><span class="token operator">&#x3C;</span><span class="token builtin">String</span><span class="token operator">?</span><span class="token operator">></span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token builtin">Observable</span><span class="token operator">&#x3C;</span><span class="token builtin">String</span><span class="token operator">?</span><span class="token operator">></span><span class="token punctuation">.</span><span class="token function">create</span><span class="token punctuation">(</span><span class="token punctuation">{</span> observer <span class="token keyword">in</span>
+            <span class="token keyword">do</span> <span class="token punctuation">{</span>
+                <span class="token keyword">let</span> value <span class="token operator">=</span> <span class="token keyword">try</span> <span class="token keyword">self</span><span class="token punctuation">.</span>base<span class="token punctuation">.</span><span class="token function">getValue</span><span class="token punctuation">(</span><span class="token keyword">for</span><span class="token punctuation">:</span> key<span class="token punctuation">)</span>
+                observer<span class="token punctuation">.</span><span class="token function">onNext</span><span class="token punctuation">(</span>value<span class="token punctuation">)</span>
+                observer<span class="token punctuation">.</span><span class="token function">onCompleted</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+            <span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token keyword">let</span> error <span class="token punctuation">{</span>
+                observer<span class="token punctuation">.</span><span class="token function">onError</span><span class="token punctuation">(</span>error<span class="token punctuation">)</span>
+            <span class="token punctuation">}</span>
+            
+            <span class="token keyword">return</span> <span class="token builtin">Disposables</span><span class="token punctuation">.</span><span class="token function">create</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+        <span class="token punctuation">}</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+    
+    <span class="token keyword">func</span> <span class="token function">remove</span><span class="token punctuation">(</span>key<span class="token punctuation">:</span> <span class="token builtin">String</span><span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">></span> <span class="token builtin">Observable</span><span class="token operator">&#x3C;</span><span class="token builtin">Void</span><span class="token operator">></span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token builtin">Observable</span><span class="token operator">&#x3C;</span><span class="token builtin">Void</span><span class="token operator">></span><span class="token punctuation">.</span><span class="token function">create</span><span class="token punctuation">(</span><span class="token punctuation">{</span> observer <span class="token keyword">in</span>
+            <span class="token keyword">do</span> <span class="token punctuation">{</span>
+                <span class="token keyword">try</span> <span class="token keyword">self</span><span class="token punctuation">.</span>base<span class="token punctuation">.</span><span class="token function">remove</span><span class="token punctuation">(</span>key<span class="token punctuation">:</span> key<span class="token punctuation">)</span>
+                observer<span class="token punctuation">.</span><span class="token function">onCompleted</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+            <span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token keyword">let</span> error <span class="token punctuation">{</span>
+                observer<span class="token punctuation">.</span><span class="token function">onError</span><span class="token punctuation">(</span>error<span class="token punctuation">)</span>
+            <span class="token punctuation">}</span>
+            
+            <span class="token keyword">return</span> <span class="token builtin">Disposables</span><span class="token punctuation">.</span><span class="token function">create</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+        <span class="token punctuation">}</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+    
+    <span class="token keyword">func</span> <span class="token function">removeAll</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">></span> <span class="token builtin">Observable</span><span class="token operator">&#x3C;</span><span class="token builtin">Void</span><span class="token operator">></span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token builtin">Observable</span><span class="token operator">&#x3C;</span><span class="token builtin">Void</span><span class="token operator">></span><span class="token punctuation">.</span><span class="token function">create</span><span class="token punctuation">(</span><span class="token punctuation">{</span> observer <span class="token keyword">in</span>
+            <span class="token keyword">do</span> <span class="token punctuation">{</span>
+                <span class="token keyword">try</span> <span class="token keyword">self</span><span class="token punctuation">.</span>base<span class="token punctuation">.</span><span class="token function">removeAll</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+                observer<span class="token punctuation">.</span><span class="token function">onCompleted</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+            <span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token keyword">let</span> error <span class="token punctuation">{</span>
+                observer<span class="token punctuation">.</span><span class="token function">onError</span><span class="token punctuation">(</span>error<span class="token punctuation">)</span>
+            <span class="token punctuation">}</span>
+            
+            <span class="token keyword">return</span> <span class="token builtin">Disposables</span><span class="token punctuation">.</span><span class="token function">create</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+        <span class="token punctuation">}</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
 <h2 id="rxswift-and-delegate-pattern"><a aria-hidden="true" class="anchor-heading" href="#rxswift-and-delegate-pattern"><svg aria-hidden="true" viewBox="0 0 16 16"><use xlink:href="#svg-link"></use></svg></a>RxSwift and delegate pattern</h2>
 <ul>
 <li>Checkout <code>Reactive.swift</code>, <code>DelegateProxy.swift</code> &#x26; <code>DelegateProxyType.swift</code> files</li>
@@ -213,7 +305,177 @@
 </ul>
 </li>
 <li>Use <code>public static func installForwardDelegate(_ forwardDelegate: AnyObject, retainDelegate: Bool, onProxyForObject object: AnyObject) -> Disposable</code></li>
-</ul><span id="navId" data="98b3c847-9ce7-4cf4-9c51-288a3f0f4698"></span>
+</ul>
+<h4 id="code-examples-on-how-to-wrap-3rd-party-framework-that-uses-delegate"><a aria-hidden="true" class="anchor-heading" href="#code-examples-on-how-to-wrap-3rd-party-framework-that-uses-delegate"><svg aria-hidden="true" viewBox="0 0 16 16"><use xlink:href="#svg-link"></use></svg></a>Code examples on how to wrap 3rd party framework that uses delegate</h4>
+<ul>
+<li><code>ASAuthorizationController+Rx.swift</code></li>
+</ul>
+<pre class="language-swift"><code class="language-swift">@<span class="token function">available</span><span class="token punctuation">(</span>iOS <span class="token number">13.0</span><span class="token punctuation">,</span> <span class="token operator">*</span><span class="token punctuation">)</span>
+<span class="token keyword">extension</span> <span class="token builtin">ASAuthorizationController</span><span class="token punctuation">:</span> <span class="token builtin">HasDelegate</span> <span class="token punctuation">{</span><span class="token punctuation">}</span>
+
+@<span class="token function">available</span><span class="token punctuation">(</span>iOS <span class="token number">13.0</span><span class="token punctuation">,</span> <span class="token operator">*</span><span class="token punctuation">)</span>
+<span class="token keyword">class</span> <span class="token class-name">RxASAuthorizationControllerDelegateProxy</span><span class="token punctuation">:</span> <span class="token builtin">DelegateProxy</span><span class="token operator">&#x3C;</span><span class="token builtin">ASAuthorizationController</span><span class="token punctuation">,</span> <span class="token builtin">ASAuthorizationControllerDelegate</span><span class="token operator">></span><span class="token punctuation">,</span> <span class="token builtin">DelegateProxyType</span><span class="token punctuation">,</span> <span class="token builtin">ASAuthorizationControllerDelegate</span> <span class="token punctuation">{</span>
+    
+    <span class="token keyword">weak</span> <span class="token keyword">public</span> <span class="token keyword">private</span><span class="token punctuation">(</span><span class="token keyword">set</span><span class="token punctuation">)</span> <span class="token keyword">var</span> authorizationController<span class="token punctuation">:</span> <span class="token builtin">ASAuthorizationController</span><span class="token operator">?</span>
+    
+    <span class="token keyword">public</span> <span class="token keyword">init</span><span class="token punctuation">(</span>authorizationController<span class="token punctuation">:</span> <span class="token builtin">ParentObject</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">self</span><span class="token punctuation">.</span>authorizationController <span class="token operator">=</span> authorizationController
+        <span class="token keyword">super</span><span class="token punctuation">.</span><span class="token keyword">init</span><span class="token punctuation">(</span>parentObject<span class="token punctuation">:</span> authorizationController<span class="token punctuation">,</span> delegateProxy<span class="token punctuation">:</span> <span class="token builtin">RxASAuthorizationControllerDelegateProxy</span><span class="token punctuation">.</span><span class="token keyword">self</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+    
+    <span class="token keyword">static</span> <span class="token keyword">func</span> <span class="token function">registerKnownImplementations</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token function">register</span><span class="token punctuation">(</span>make<span class="token punctuation">:</span> <span class="token punctuation">{</span> <span class="token function">RxASAuthorizationControllerDelegateProxy</span><span class="token punctuation">(</span>authorizationController<span class="token punctuation">:</span> $<span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">}</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+@<span class="token function">available</span><span class="token punctuation">(</span>iOS <span class="token number">13.0</span><span class="token punctuation">,</span> <span class="token operator">*</span><span class="token punctuation">)</span>
+<span class="token keyword">extension</span> <span class="token builtin">Reactive</span> <span class="token keyword">where</span> <span class="token builtin">Base</span><span class="token punctuation">:</span> <span class="token builtin">ASAuthorizationController</span> <span class="token punctuation">{</span>
+    <span class="token keyword">var</span> delegate<span class="token punctuation">:</span> <span class="token builtin">DelegateProxy</span><span class="token operator">&#x3C;</span><span class="token builtin">ASAuthorizationController</span><span class="token punctuation">,</span> <span class="token builtin">ASAuthorizationControllerDelegate</span><span class="token operator">></span> <span class="token punctuation">{</span>
+        <span class="token builtin">RxASAuthorizationControllerDelegateProxy</span><span class="token punctuation">.</span><span class="token function">proxy</span><span class="token punctuation">(</span><span class="token keyword">for</span><span class="token punctuation">:</span> base<span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+    
+    <span class="token keyword">var</span> didCompleteWithAuthorization<span class="token punctuation">:</span> <span class="token builtin">Observable</span><span class="token operator">&#x3C;</span><span class="token builtin">ASAuthorization</span><span class="token operator">></span> <span class="token punctuation">{</span>
+        delegate<span class="token punctuation">.</span><span class="token function">methodInvoked</span><span class="token punctuation">(</span>#<span class="token function">selector</span><span class="token punctuation">(</span><span class="token builtin">ASAuthorizationControllerDelegate</span><span class="token punctuation">.</span><span class="token function">authorizationController</span><span class="token punctuation">(</span>controller<span class="token punctuation">:</span>didCompleteWithAuthorization<span class="token punctuation">:</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+            <span class="token punctuation">.</span><span class="token builtin">map</span> <span class="token punctuation">{</span> parameters <span class="token keyword">in</span>
+                <span class="token keyword">return</span> parameters<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span> <span class="token keyword">as</span><span class="token operator">!</span> <span class="token builtin">ASAuthorization</span>
+            <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<ul>
+<li><code>GidSignIn+Rx.swift</code></li>
+</ul>
+<pre class="language-swift"><code class="language-swift"><span class="token keyword">class</span> <span class="token class-name">RxGIDSignInDelegateProxy</span><span class="token punctuation">:</span> <span class="token builtin">DelegateProxy</span><span class="token operator">&#x3C;</span><span class="token builtin">GIDSignIn</span><span class="token punctuation">,</span> <span class="token builtin">GIDSignInDelegate</span><span class="token operator">></span><span class="token punctuation">,</span><span class="token builtin">GIDSignInDelegate</span>  <span class="token punctuation">{</span>
+    <span class="token keyword">public</span> <span class="token keyword">weak</span> <span class="token keyword">private</span><span class="token punctuation">(</span><span class="token keyword">set</span><span class="token punctuation">)</span> <span class="token keyword">var</span> gidSignIn<span class="token punctuation">:</span> <span class="token builtin">GIDSignIn</span><span class="token operator">?</span>
+    <span class="token keyword">var</span> signInSubject <span class="token operator">=</span> <span class="token builtin">PublishSubject</span><span class="token operator">&#x3C;</span><span class="token builtin">GIDGoogleUser</span><span class="token operator">></span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token keyword">var</span> disconnectSubject <span class="token operator">=</span> <span class="token builtin">PublishSubject</span><span class="token operator">&#x3C;</span><span class="token builtin">GIDGoogleUser</span><span class="token operator">></span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    
+    <span class="token keyword">init</span><span class="token punctuation">(</span>gidSignIn<span class="token punctuation">:</span> <span class="token builtin">ParentObject</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">self</span><span class="token punctuation">.</span>gidSignIn <span class="token operator">=</span> gidSignIn
+        <span class="token keyword">super</span><span class="token punctuation">.</span><span class="token keyword">init</span><span class="token punctuation">(</span>parentObject<span class="token punctuation">:</span> gidSignIn<span class="token punctuation">,</span> delegateProxy<span class="token punctuation">:</span> <span class="token builtin">RxGIDSignInDelegateProxy</span><span class="token punctuation">.</span><span class="token keyword">self</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+    
+    <span class="token keyword">func</span> <span class="token function">sign</span><span class="token punctuation">(</span><span class="token number">_</span> signIn<span class="token punctuation">:</span> <span class="token builtin">GIDSignIn</span><span class="token operator">!</span><span class="token punctuation">,</span> didSignInFor user<span class="token punctuation">:</span> <span class="token builtin">GIDGoogleUser</span><span class="token operator">!</span><span class="token punctuation">,</span> withError error<span class="token punctuation">:</span> <span class="token builtin">Error</span><span class="token operator">!</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token keyword">let</span> u <span class="token operator">=</span> user <span class="token punctuation">{</span>
+            signInSubject<span class="token punctuation">.</span><span class="token function">on</span><span class="token punctuation">(</span><span class="token punctuation">.</span><span class="token function">next</span><span class="token punctuation">(</span>u<span class="token punctuation">)</span><span class="token punctuation">)</span>
+        <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token keyword">let</span> e <span class="token operator">=</span> error <span class="token punctuation">{</span>
+            signInSubject<span class="token punctuation">.</span><span class="token function">on</span><span class="token punctuation">(</span><span class="token punctuation">.</span><span class="token function">error</span><span class="token punctuation">(</span>e<span class="token punctuation">)</span><span class="token punctuation">)</span>
+        <span class="token punctuation">}</span>
+        _forwardToDelegate<span class="token operator">?</span><span class="token punctuation">.</span><span class="token function">sign</span><span class="token punctuation">(</span>signIn<span class="token punctuation">,</span> didSignInFor<span class="token punctuation">:</span>user<span class="token punctuation">,</span> withError<span class="token punctuation">:</span> error<span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+    
+    <span class="token keyword">public</span> <span class="token keyword">func</span> <span class="token function">sign</span><span class="token punctuation">(</span><span class="token number">_</span> signIn<span class="token punctuation">:</span> <span class="token builtin">GIDSignIn</span><span class="token operator">!</span><span class="token punctuation">,</span> didDisconnectWith user<span class="token punctuation">:</span> <span class="token builtin">GIDGoogleUser</span><span class="token operator">!</span><span class="token punctuation">,</span> withError error<span class="token punctuation">:</span> <span class="token builtin">Error</span><span class="token operator">!</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token keyword">let</span> u <span class="token operator">=</span> user <span class="token punctuation">{</span>
+            <span class="token keyword">self</span><span class="token punctuation">.</span>disconnectSubject<span class="token punctuation">.</span><span class="token function">on</span><span class="token punctuation">(</span><span class="token punctuation">.</span><span class="token function">next</span><span class="token punctuation">(</span>u<span class="token punctuation">)</span><span class="token punctuation">)</span>
+        <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token keyword">let</span> e <span class="token operator">=</span> error <span class="token punctuation">{</span>
+            <span class="token keyword">self</span><span class="token punctuation">.</span>disconnectSubject<span class="token punctuation">.</span><span class="token function">on</span><span class="token punctuation">(</span><span class="token punctuation">.</span><span class="token function">error</span><span class="token punctuation">(</span>e<span class="token punctuation">)</span><span class="token punctuation">)</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">self</span><span class="token punctuation">.</span>_forwardToDelegate<span class="token operator">?</span><span class="token punctuation">.</span><span class="token function">sign</span><span class="token punctuation">(</span>signIn<span class="token punctuation">,</span> didDisconnectWith<span class="token punctuation">:</span> user<span class="token punctuation">,</span> withError<span class="token punctuation">:</span> error<span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+    
+    <span class="token keyword">deinit</span> <span class="token punctuation">{</span>
+        signInSubject<span class="token punctuation">.</span><span class="token function">on</span><span class="token punctuation">(</span><span class="token punctuation">.</span>completed<span class="token punctuation">)</span>
+        disconnectSubject<span class="token punctuation">.</span><span class="token function">on</span><span class="token punctuation">(</span><span class="token punctuation">.</span>completed<span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">extension</span> <span class="token builtin">RxGIDSignInDelegateProxy</span> <span class="token punctuation">:</span><span class="token builtin">DelegateProxyType</span> <span class="token punctuation">{</span>
+    <span class="token keyword">static</span> <span class="token keyword">func</span> <span class="token function">registerKnownImplementations</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        register <span class="token punctuation">{</span> <span class="token function">RxGIDSignInDelegateProxy</span><span class="token punctuation">(</span>gidSignIn<span class="token punctuation">:</span> $<span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+    
+    <span class="token keyword">static</span> <span class="token keyword">func</span> <span class="token function">currentDelegate</span><span class="token punctuation">(</span><span class="token keyword">for</span> object<span class="token punctuation">:</span> <span class="token builtin">GIDSignIn</span><span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">></span> <span class="token builtin">GIDSignInDelegate</span><span class="token operator">?</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> object<span class="token punctuation">.</span>delegate
+    <span class="token punctuation">}</span>
+    
+    <span class="token keyword">static</span> <span class="token keyword">func</span> <span class="token function">setCurrentDelegate</span><span class="token punctuation">(</span><span class="token number">_</span> delegate<span class="token punctuation">:</span> <span class="token builtin">GIDSignInDelegate</span><span class="token operator">?</span><span class="token punctuation">,</span> to object<span class="token punctuation">:</span> <span class="token builtin">GIDSignIn</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        object<span class="token punctuation">.</span>delegate <span class="token operator">=</span> delegate
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">extension</span> <span class="token builtin">Reactive</span> <span class="token keyword">where</span> <span class="token builtin">Base</span><span class="token punctuation">:</span> <span class="token builtin">GIDSignIn</span> <span class="token punctuation">{</span>
+    <span class="token keyword">public</span> <span class="token keyword">var</span> delegate<span class="token punctuation">:</span> <span class="token builtin">DelegateProxy</span><span class="token operator">&#x3C;</span><span class="token builtin">GIDSignIn</span><span class="token punctuation">,</span> <span class="token builtin">GIDSignInDelegate</span><span class="token operator">></span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token keyword">self</span><span class="token punctuation">.</span>gidSignInDelegate
+    <span class="token punctuation">}</span>
+    
+    <span class="token keyword">var</span> signIn<span class="token punctuation">:</span> <span class="token builtin">Observable</span><span class="token operator">&#x3C;</span><span class="token builtin">GIDGoogleUser</span><span class="token operator">></span> <span class="token punctuation">{</span>
+        <span class="token keyword">let</span> proxy <span class="token operator">=</span> <span class="token keyword">self</span><span class="token punctuation">.</span>gidSignInDelegate
+        proxy<span class="token punctuation">.</span>signInSubject <span class="token operator">=</span> <span class="token builtin">PublishSubject</span><span class="token operator">&#x3C;</span><span class="token builtin">GIDGoogleUser</span><span class="token operator">></span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+        <span class="token keyword">return</span> proxy<span class="token punctuation">.</span>signInSubject
+            <span class="token punctuation">.</span><span class="token function">asObservable</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+            <span class="token punctuation">.</span><span class="token keyword">do</span><span class="token punctuation">(</span>onSubscribed<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+                proxy<span class="token punctuation">.</span>gidSignIn<span class="token operator">?</span><span class="token punctuation">.</span><span class="token function">signIn</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+            <span class="token punctuation">}</span><span class="token punctuation">)</span>
+            <span class="token punctuation">.</span><span class="token function">take</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span>
+            <span class="token punctuation">.</span><span class="token function">asObservable</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+        
+    <span class="token keyword">var</span> signOut<span class="token punctuation">:</span> <span class="token builtin">Observable</span><span class="token operator">&#x3C;</span><span class="token builtin">GIDGoogleUser</span><span class="token operator">></span> <span class="token punctuation">{</span>
+        <span class="token keyword">let</span> proxy <span class="token operator">=</span> <span class="token keyword">self</span><span class="token punctuation">.</span>gidSignInDelegate
+        proxy<span class="token punctuation">.</span>signInSubject <span class="token operator">=</span> <span class="token builtin">PublishSubject</span><span class="token operator">&#x3C;</span><span class="token builtin">GIDGoogleUser</span><span class="token operator">></span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+        <span class="token keyword">return</span> proxy<span class="token punctuation">.</span>disconnectSubject
+            <span class="token punctuation">.</span><span class="token function">asObservable</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+            <span class="token punctuation">.</span><span class="token keyword">do</span><span class="token punctuation">(</span>onSubscribed<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+                proxy<span class="token punctuation">.</span>gidSignIn<span class="token operator">?</span><span class="token punctuation">.</span><span class="token function">signOut</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+            <span class="token punctuation">}</span><span class="token punctuation">)</span>
+            <span class="token punctuation">.</span><span class="token function">take</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span>
+            <span class="token punctuation">.</span><span class="token function">asObservable</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+    
+    <span class="token keyword">private</span> <span class="token keyword">var</span> gidSignInDelegate<span class="token punctuation">:</span> <span class="token builtin">RxGIDSignInDelegateProxy</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token builtin">RxGIDSignInDelegateProxy</span><span class="token punctuation">.</span><span class="token function">proxy</span><span class="token punctuation">(</span><span class="token keyword">for</span><span class="token punctuation">:</span> base<span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+
+<span class="token keyword">extension</span> <span class="token builtin">RxGIDSignInDelegateProxy</span> <span class="token punctuation">:</span><span class="token builtin">DelegateProxyType</span> <span class="token punctuation">{</span>
+    <span class="token keyword">static</span> <span class="token keyword">func</span> <span class="token function">registerKnownImplementations</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        register <span class="token punctuation">{</span> <span class="token function">RxGIDSignInDelegateProxy</span><span class="token punctuation">(</span>gidSignIn<span class="token punctuation">:</span> $<span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+    
+    <span class="token keyword">static</span> <span class="token keyword">func</span> <span class="token function">currentDelegate</span><span class="token punctuation">(</span><span class="token keyword">for</span> object<span class="token punctuation">:</span> <span class="token builtin">GIDSignIn</span><span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">></span> <span class="token builtin">GIDSignInDelegate</span><span class="token operator">?</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> object<span class="token punctuation">.</span>delegate
+    <span class="token punctuation">}</span>
+    
+    <span class="token keyword">static</span> <span class="token keyword">func</span> <span class="token function">setCurrentDelegate</span><span class="token punctuation">(</span><span class="token number">_</span> delegate<span class="token punctuation">:</span> <span class="token builtin">GIDSignInDelegate</span><span class="token operator">?</span><span class="token punctuation">,</span> to object<span class="token punctuation">:</span> <span class="token builtin">GIDSignIn</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        object<span class="token punctuation">.</span>delegate <span class="token operator">=</span> delegate
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">extension</span> <span class="token builtin">Reactive</span> <span class="token keyword">where</span> <span class="token builtin">Base</span><span class="token punctuation">:</span> <span class="token builtin">GIDSignIn</span> <span class="token punctuation">{</span>
+    <span class="token keyword">public</span> <span class="token keyword">var</span> delegate<span class="token punctuation">:</span> <span class="token builtin">DelegateProxy</span><span class="token operator">&#x3C;</span><span class="token builtin">GIDSignIn</span><span class="token punctuation">,</span> <span class="token builtin">GIDSignInDelegate</span><span class="token operator">></span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token keyword">self</span><span class="token punctuation">.</span>gidSignInDelegate
+    <span class="token punctuation">}</span>
+    
+    <span class="token keyword">var</span> signIn<span class="token punctuation">:</span> <span class="token builtin">Observable</span><span class="token operator">&#x3C;</span><span class="token builtin">GIDGoogleUser</span><span class="token operator">></span> <span class="token punctuation">{</span>
+        <span class="token keyword">let</span> proxy <span class="token operator">=</span> <span class="token keyword">self</span><span class="token punctuation">.</span>gidSignInDelegate
+        proxy<span class="token punctuation">.</span>signInSubject <span class="token operator">=</span> <span class="token builtin">PublishSubject</span><span class="token operator">&#x3C;</span><span class="token builtin">GIDGoogleUser</span><span class="token operator">></span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+        <span class="token keyword">return</span> proxy<span class="token punctuation">.</span>signInSubject
+            <span class="token punctuation">.</span><span class="token function">asObservable</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+            <span class="token punctuation">.</span><span class="token keyword">do</span><span class="token punctuation">(</span>onSubscribed<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+                proxy<span class="token punctuation">.</span>gidSignIn<span class="token operator">?</span><span class="token punctuation">.</span><span class="token function">signIn</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+            <span class="token punctuation">}</span><span class="token punctuation">)</span>
+            <span class="token punctuation">.</span><span class="token function">take</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span>
+            <span class="token punctuation">.</span><span class="token function">asObservable</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+        
+    <span class="token keyword">var</span> signOut<span class="token punctuation">:</span> <span class="token builtin">Observable</span><span class="token operator">&#x3C;</span><span class="token builtin">GIDGoogleUser</span><span class="token operator">></span> <span class="token punctuation">{</span>
+        <span class="token keyword">let</span> proxy <span class="token operator">=</span> <span class="token keyword">self</span><span class="token punctuation">.</span>gidSignInDelegate
+        proxy<span class="token punctuation">.</span>signInSubject <span class="token operator">=</span> <span class="token builtin">PublishSubject</span><span class="token operator">&#x3C;</span><span class="token builtin">GIDGoogleUser</span><span class="token operator">></span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+        <span class="token keyword">return</span> proxy<span class="token punctuation">.</span>disconnectSubject
+            <span class="token punctuation">.</span><span class="token function">asObservable</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+            <span class="token punctuation">.</span><span class="token keyword">do</span><span class="token punctuation">(</span>onSubscribed<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+                proxy<span class="token punctuation">.</span>gidSignIn<span class="token operator">?</span><span class="token punctuation">.</span><span class="token function">signOut</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+            <span class="token punctuation">}</span><span class="token punctuation">)</span>
+            <span class="token punctuation">.</span><span class="token function">take</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span>
+            <span class="token punctuation">.</span><span class="token function">asObservable</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+    
+    <span class="token keyword">private</span> <span class="token keyword">var</span> gidSignInDelegate<span class="token punctuation">:</span> <span class="token builtin">RxGIDSignInDelegateProxy</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token builtin">RxGIDSignInDelegateProxy</span><span class="token punctuation">.</span><span class="token function">proxy</span><span class="token punctuation">(</span><span class="token keyword">for</span><span class="token punctuation">:</span> base<span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre><span id="navId" data="98b3c847-9ce7-4cf4-9c51-288a3f0f4698"></span>
 
                 
       </section>
