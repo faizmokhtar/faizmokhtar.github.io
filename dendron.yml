@@ -5,17 +5,25 @@ vaults:
 useFMTitle: true
 noLegacyNoteRef: true
 site:
-    siteUrl: https://notes.faizmokhtar.com
+    siteUrl: 'https://notes.faizmokhtar.com'
     copyAssets: true
-    siteHierarchies: [root]
+    siteHierarchies:
+        - root
     siteRootDir: docs
     usePrettyRefs: true
-    title: "@faizmokh's 🧠"
-    twitter: "faizmokh"
+    title: "@faizmokh's \U0001F9E0"
+    twitter: faizmokh
     description: Personal knowledge space
     duplicateNoteBehavior:
         action: useVault
         payload:
             - vault
-    gh_root: "docs/"
+    gh_root: docs/
 initializeRemoteVaults: true
+journal:
+    dailyDomain: daily
+    name: journal
+    dateFormat: y.MM.dd
+    addBehavior: childOfDomain
+    firstDayOfWeek: 1
+dendronVersion: 0.47.0

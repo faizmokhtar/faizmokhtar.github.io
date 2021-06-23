@@ -2,7 +2,7 @@
 id: 98b3c847-9ce7-4cf4-9c51-288a3f0f4698
 title: Rxswift
 desc: ''
-updated: 1624169396306
+updated: 1624238639409
 created: 1620608125114
 ---
 
@@ -15,6 +15,7 @@ created: 1620608125114
 
 [RxRelay Github link](https://github.com/ReactiveX/RxSwift/blob/main/RxRelay/BehaviorRelay.swift)
 
+---
 ## Extending class to provide Rx behavior
 
 - To make it available through `rx` property
@@ -107,7 +108,7 @@ extension Reactive where Base: KeychainWorker {
     }
 }
 ```
-
+---
 ## RxSwift and delegate pattern
 
 - Checkout `Reactive.swift`, `DelegateProxy.swift` & `DelegateProxyType.swift` files
@@ -125,7 +126,7 @@ extension Reactive where Base: KeychainWorker {
     - Best solution is to forward the call to a classic implementation of the delegate
 - Use `public static func installForwardDelegate(_ forwardDelegate: AnyObject, retainDelegate: Bool, onProxyForObject object: AnyObject) -> Disposable`
 
-#### Code examples on how to wrap 3rd party framework that uses delegate
+### Code examples on how to wrap 3rd party framework that uses delegate
 
 - `ASAuthorizationController+Rx.swift`
 ```swift
@@ -295,3 +296,7 @@ extension Reactive where Base: GIDSignIn {
     }
 }
 ```
+---
+## On `map` and `flatMap` difference
+
+- https://stackoverflow.com/questions/49627902/rxswift-map-and-flatmap-difference

@@ -131,7 +131,7 @@
       
         
           <nav aria-label="Breadcrumb" class="breadcrumb-nav">
-            <ol class="breadcrumb-nav-list"><li class="breadcrumb-nav-list-item"><a href="https://notes.faizmokhtar.com">Root</a></li><li class="breadcrumb-nav-list-item"><a href="https://notes.faizmokhtar.com/notes/41bfd126-5186-433b-84ba-cd3b79f29c18.html">Tool</a></li><li class="breadcrumb-nav-list-item">Xcode</li></ol>
+            <ol class="breadcrumb-nav-list"><li class="breadcrumb-nav-list-item"><a href="https://notes.faizmokhtar.com">Apa Khabar?</a></li><li class="breadcrumb-nav-list-item"><a href="https://notes.faizmokhtar.com/notes/41bfd126-5186-433b-84ba-cd3b79f29c18.html">Tool</a></li><li class="breadcrumb-nav-list-item">Xcode</li></ol>
           </nav>
         
       
@@ -167,7 +167,7 @@
     <meta itemprop="headline" content="Xcode">
     
     <meta itemprop="datePublished" content="2021-05-19T22:24:07+00:00">
-    <meta itemprop="dateModified" content="2021-06-03T21:38:59+00:00">
+    <meta itemprop="dateModified" content="2021-06-23T23:14:18+00:00">
 
     <div class="page__inner-wrap">
 
@@ -192,7 +192,27 @@
 
 
 
-<table><thead><tr><th>Features</th><th>Keys</th></tr></thead><tbody><tr><td>Easily navigate between current and previous file</td><td>CTRL+CMD+LEFT/RIGHT KEY</td></tr></tbody></table><span id="navId" data="9cdd3fac-1222-4ad2-bc4b-40e488cff588"></span>
+
+
+
+
+<table><thead><tr><th>Features</th><th>Keys</th></tr></thead><tbody><tr><td>Easily navigate between current and previous file</td><td>CTRL+CMD+LEFT/RIGHT KEY</td></tr><tr><td>Clear debug console</td><td>CMD + K</td></tr></tbody></table>
+<h1 id="to-show-duration-of-builds"><a aria-hidden="true" class="anchor-heading" href="#to-show-duration-of-builds"><svg aria-hidden="true" viewBox="0 0 16 16"><use xlink:href="#svg-link"></use></svg></a>To show duration of builds</h1>
+<ul>
+<li>Run the following in your terminal</li>
+</ul>
+<pre class="language-bash"><code class="language-bash">defaults <span class="token function">write</span> com.apple.dt.Xcode ShowBuildOperationDuration -bool YES
+</code></pre>
+<h1 id="use-ios-device-beta-with-current-xcode-version"><a aria-hidden="true" class="anchor-heading" href="#use-ios-device-beta-with-current-xcode-version"><svg aria-hidden="true" viewBox="0 0 16 16"><use xlink:href="#svg-link"></use></svg></a>Use iOS device beta with current Xcode version</h1>
+<ul>
+<li>Through symlinking (When you have multiple Xcodes)</li>
+</ul>
+<pre class="language-bash"><code class="language-bash"><span class="token function">sudo</span> <span class="token function">ln</span> -s /Applications/Xcode-beta.app/Contents/Developer/Platforms/iPhoneOS.platform/DeviceSupport/15.0 /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/DeviceSupport
+</code></pre>
+<p>References: <a href="https://gist.github.com/steipete/d9b44d8e9f341e81414e86d7ff8fb62d">https://gist.github.com/steipete/d9b44d8e9f341e81414e86d7ff8fb62d</a></p>
+<ul>
+<li>By downloading <code>DeviceSupport</code> from <a href="https://github.com/iGhibli/iOS-DeviceSupport">https://github.com/iGhibli/iOS-DeviceSupport</a></li>
+</ul><span id="navId" data="9cdd3fac-1222-4ad2-bc4b-40e488cff588"></span>
 
                 
       </section>
