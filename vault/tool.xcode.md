@@ -2,7 +2,7 @@
 id: 9cdd3fac-1222-4ad2-bc4b-40e488cff588
 title: Xcode
 desc: ''
-updated: 1624461258513
+updated: 1625030646842
 created: 1621434247250
 ---
 
@@ -26,3 +26,9 @@ sudo ln -s /Applications/Xcode-beta.app/Contents/Developer/Platforms/iPhoneOS.pl
 ```
 References: <https://gist.github.com/steipete/d9b44d8e9f341e81414e86d7ff8fb62d>
 - By downloading `DeviceSupport` from <https://github.com/iGhibli/iOS-DeviceSupport>
+
+# Carthage
+- To delete Carthage cache
+```bash
+rm -rf ~/Library/Caches/org.carthage.CarthageKit
+```

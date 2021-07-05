@@ -2,7 +2,7 @@
 id: 7d00ea3a-985f-4e46-b90e-46abc296aaab
 title: TIL
 desc: 'Today I learned'
-updated: 1624874718205
+updated: 1624954146952
 created: 1620223288089
 ---
 
@@ -11,3 +11,4 @@ created: 1620223288089
 - What is **market capitalization**?
 - How to use regex?
 - What is AndroidX and Android Jetpack?
+- What is hot and cold observables in Rx?
